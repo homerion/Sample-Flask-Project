@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+
+
+{%block content%}
+<h1>Below are some posts:</h1>
+  {%for p in posts%}
+
+    <p>{{p}}</p>
+
+  {%endfor%}
+
+{%endblock%}
