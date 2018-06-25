@@ -4,12 +4,13 @@ from flask import render_template, redirect,url_for
 
 
 
-@app.route('/')
-@app.route('/index')
-def index():
+@app.route('/<name>', methods=['GET','PUT'])
+@app.route('/index/<name>', methods=['GET','PUT'])
+def index(name):
     user = {'username': 'Daniel'}
     num = 2+2
-    return render_template('index.html', user=user,num=num,title='Home Page')
+    return render_template('index.html', user=user,
+    name=name,num=num,title='Home Page')
 
 @app.route('/posts')
 def posts():
