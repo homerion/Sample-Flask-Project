@@ -8,15 +8,24 @@
 {%block navbar%}
 <div class="navbar navbar-inverse">
   <ul class="nav navbar-nav">
-    <li class="active"><a href="#" class="nav-item nav-link">Home</a></li>
-    <li><a href="#" class="nav-item nav-link">Page 1</a></li>
-    <li><a href="#" class="nav-item nav-link">Page 2</a></li>
-    <li><a href="#" class="nav-item nav-link">Page 3</a></li>
+    <li class="active"><a href="{{url_for('index')}}" class="nav-item nav-link">Home</a></li>
+    <li><a href="{{url_for('posts')}}" class="nav-item nav-link">Posts</a></li>
+    <li><a href="{{url_for('login')}}" class="nav-item nav-link">Login</a></li>
+    <li><a href="{{url_for('register')}}" class="nav-item nav-link">Register</a></li>
   </ul>
 </div>
 {%endblock%}
 
 {%block content%}
+  {% with messages = get_flashed_messages()%}
+    {%if messages%}
+      <ul>
+      {%for message in messages%}
+        <li>{{message}}</li>
+      {%endfor%}
+      </ul>
+    {%endif%}
+  {%endwith%}
   {%block app_content%}
   {%endblock%}
 {%endblock%}
@@ -24,5 +33,5 @@
 {%block styles%}
   {{ super() }}
   <!-- grabs all the block stylings from bootstrap (it's a jinja thing) -->
-  <link rel="stylesheet" href="..static/css/main.css">
+  <link rel="stylesheet" href="../static/css/main.css">
 {%endblock%}
