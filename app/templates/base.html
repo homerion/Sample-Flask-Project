@@ -8,10 +8,14 @@
 {%block navbar%}
 <div class="navbar navbar-inverse">
   <ul class="nav navbar-nav">
-    <li class="active"><a href="{{url_for('index')}}" class="nav-item nav-link">Home</a></li>
-    <li><a href="{{url_for('posts')}}" class="nav-item nav-link">Posts</a></li>
-    <li><a href="{{url_for('login')}}" class="nav-item nav-link">Login</a></li>
-    <li><a href="{{url_for('register')}}" class="nav-item nav-link">Register</a></li>
+    <li class="active"><a href="{{url_for('index')}}">Home</a></li>
+    <li><a href="{{url_for('posts')}}" >Posts</a></li>
+    {%if current_user.is_anonymous %}
+      <li><a href="{{url_for('login')}}" >Login</a></li>
+      <li><a href="{{url_for('register')}}" >Register</a></li>
+    {%else %}
+      <li><a href="{{url_for('logout')}}" >Logout</a></li>
+    {%endif%}
   </ul>
 </div>
 {%endblock%}

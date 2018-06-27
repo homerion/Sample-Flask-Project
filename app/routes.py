@@ -1,8 +1,8 @@
 from app import app
 from flask import render_template, redirect, url_for, flash
 from app.forms import LoginForm, RegisterForm
-
-
+from flask_login import current_user, login_user, logout_user
+from app.models import User, Post
 
 @app.route('/', methods=['GET','POST'])
 @app.route('/index/', methods=['GET','POST'])
@@ -29,11 +29,17 @@ def posts():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     login_form = LoginForm()
     if login_form.validate_on_submit():
-        flash('Thank you for logging in {}!'.format(login_form.username.data))
+        user = User.query.filter_by(username=login_form.username.data).first()
+        if user is None or not user.check_password(login_form.password.data):
+            flash('Invalid login credentials')
+            return redirect(url_for('login'))
+        login_user(user, remember=login_form.remember_me.data)
+        flash('Thanks for loggin in {}!'.format(current_user.username))
         return redirect(url_for('index'))
-
     return render_template('login.html',form=login_form)
 
 
@@ -45,3 +51,9 @@ def register():
         return redirect(url_for('index'))
 
     return render_template('register.html',form=register_form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
