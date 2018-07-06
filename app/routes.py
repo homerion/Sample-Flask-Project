@@ -7,7 +7,7 @@ from werkzeug.urls import url_parse
 
 
 @app.route('/', methods=['GET','POST'])
-@app.route('/index/', methods=['GET','POST'])
+@app.route('/index', methods=['GET','POST'])
 def index():
     user = {'username': 'Daniel'}
     num = 2+2
@@ -62,7 +62,7 @@ def register():
     register_form = RegisterForm()
     if register_form.validate_on_submit():
         user = User(username=register_form.username.data, \
-            email=register_form.username.data)
+            email=register_form.email.data)
         user.set_password(register_form.password.data)
         db.session.add(user)
         db.session.commit()
